@@ -1,0 +1,1 @@
+# Capacitor Meta Ads Plugin

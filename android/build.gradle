@@ -1,0 +1,23 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+
+
+android {
+namespace "com.example.metaads"
+compileSdk 34
+
+
+defaultConfig {
+minSdk 21
+}
+}
+
+
+dependencies {
+implementation "com.facebook.android:facebook-core:17.0.0"
+implementation "com.facebook.android:facebook-applinks:17.0.0"
+implementation "com.facebook.android:facebook-marketing:17.0.0"
+
+
+implementation project(':capacitor-android')
+}
