@@ -15,7 +15,6 @@ Pod::Spec.new do |s|
     
     # Core SDK modules: adjust depending on needs
     s.dependency 'FBSDKCoreKit'
-    s.dependency 'FBSDKCoreKit/AppEvents'
     
     # Source files - updated paths to reference ios/ directory from root
     s.source_files = 'ios/Plugin/**/*.{swift,h,m}'

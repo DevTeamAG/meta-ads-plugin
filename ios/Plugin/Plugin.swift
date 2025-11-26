@@ -11,8 +11,8 @@ public class MetaAdsPlugin: CAPPlugin {
         // Do not call initializeSDK here with App ID because AppDelegate needs to be configured too.
         // If you want to initialize here, ensure Info.plist has FacebookAppID set.
         if let appID = Bundle.main.object(forInfoDictionaryKey: "FacebookAppID") as? String {
-            Settings.appID = appID
-            Settings.isAutoLogAppEventsEnabled = true
+            Settings.shared.appID = appID
+            Settings.shared.isAutoLogAppEventsEnabled = true
             ApplicationDelegate.shared.initializeSDK()
             NSLog("MetaAdsPlugin: initialized with AppID: \(appID)")
         } else {
@@ -23,9 +23,9 @@ public class MetaAdsPlugin: CAPPlugin {
     @objc func initialize(_ call: CAPPluginCall) {
         let appId = call.getString("appId")
         if let appId = appId {
-            Settings.appID = appId
+            Settings.shared.appID = appId
         }
-        Settings.isAutoLogAppEventsEnabled = true
+        Settings.shared.isAutoLogAppEventsEnabled = true
         ApplicationDelegate.shared.initializeSDK()
         call.resolve()
     }
@@ -50,7 +50,7 @@ public class MetaAdsPlugin: CAPPlugin {
     @objc func setUserID(_ call: CAPPluginCall) {
         let userID = call.getString("userID")
         Settings.shared.isAdvertiserIDCollectionEnabled = (userID != nil)
-        AppEvents.shared.setUserID(userID)
+        AppEvents.shared.userID = userID
         call.resolve()
     }
 
@@ -58,7 +58,12 @@ public class MetaAdsPlugin: CAPPlugin {
         let options = call.getArray("options") ?? []
         let country = call.getInt("country") ?? 0
         let state = call.getInt("state") ?? 0
-        Settings.setDataProcessingOptions(options, country: NSNumber(value: country), state: NSNumber(value: state))
+        
+        // Convert options array to [String]
+        let optionsArray = options.compactMap { $0 as? String }
+        
+        // Use Settings.shared instance method - convert to Int32
+        Settings.shared.setDataProcessingOptions(optionsArray, country: Int32(country), state: Int32(state))
         call.resolve()
     }
 
