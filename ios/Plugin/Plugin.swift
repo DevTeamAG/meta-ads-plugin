@@ -3,20 +3,20 @@ import Capacitor
 import FBSDKCoreKit
 import AppTrackingTransparency
 
-@objc(CapacitorMetaAdsPlugin)
-public class CapacitorMetaAdsPlugin: CAPPlugin {
+@objc(MetaAdsPlugin)
+public class MetaAdsPlugin: CAPPlugin {
     // Called when the plugin is loaded
     public override func load() {
-        NSLog("CapacitorMetaAdsPlugin: load called")
+        NSLog("MetaAdsPlugin: load called")
         // Do not call initializeSDK here with App ID because AppDelegate needs to be configured too.
         // If you want to initialize here, ensure Info.plist has FacebookAppID set.
         if let appID = Bundle.main.object(forInfoDictionaryKey: "FacebookAppID") as? String {
             Settings.appID = appID
             Settings.isAutoLogAppEventsEnabled = true
             ApplicationDelegate.shared.initializeSDK()
-            NSLog("CapacitorMetaAdsPlugin: initialized with AppID: \(appID)")
+            NSLog("MetaAdsPlugin: initialized with AppID: \(appID)")
         } else {
-            NSLog("CapacitorMetaAdsPlugin: FacebookAppID not found in Info.plist")
+            NSLog("MetaAdsPlugin: FacebookAppID not found in Info.plist")
         }
     }
 

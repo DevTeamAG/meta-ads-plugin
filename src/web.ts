@@ -8,23 +8,23 @@ export class MetaAdsWeb extends WebPlugin implements MetaAdsPlugin {
   }
 
   async initialize(_: { appId?: string } = {}): Promise<void> {
-    console.warn('CapacitorMetaAds: initialize() called on web. No-op.');
+    console.warn('MetaAdsPlugin: initialize() called on web. No-op.');
   }
 
   async logEvent(options: { name: string; params?: { [key: string]: any } }): Promise<void> {
-    console.log('CapacitorMetaAds.logEvent (web) ', options.name, options.params);
+    console.log('MetaAdsPlugin.logEvent (web) ', options.name, options.params);
   }
 
   async setUserID(options: { userID: string | null }): Promise<void> {
-    console.log('CapacitorMetaAds.setUserID (web) ', options.userID);
+    console.log('MetaAdsPlugin.setUserID (web) ', options.userID);
   }
 
   async setDataProcessingOptions(options: { options: string[]; country?: number; state?: number }): Promise<void> {
-    console.log('CapacitorMetaAds.setDataProcessingOptions (web) ', options);
+    console.log('MetaAdsPlugin.setDataProcessingOptions (web) ', options);
   }
 
   async requestTrackingAuthorization(): Promise<{ status: number }> {
-    console.warn('CapacitorMetaAds.requestTrackingAuthorization (web) - not supported');
+    console.warn('MetaAdsPlugin.requestTrackingAuthorization (web) - not supported');
     return { status: -1 };
   }
 }

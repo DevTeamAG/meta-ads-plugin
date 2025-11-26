@@ -4,7 +4,7 @@ export default {
     {
       file: 'dist/plugin.js',
       format: 'iife',
-      name: 'capacitorMetaAds',
+      name: 'metaAdsPlugin',
       globals: {
         '@capacitor/core': 'capacitorExports',
       },

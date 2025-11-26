@@ -1,5 +1,5 @@
-import { WebPlugin } from "@capacitor/core";
-import type { MetaAdsPlugin } from "./definitions";
+import { WebPlugin } from '@capacitor/core';
+import type { MetaAdsPlugin } from './definitions';
 export declare class MetaAdsWeb extends WebPlugin implements MetaAdsPlugin {
     constructor();
     initialize(_?: {

@@ -1,5 +1,5 @@
 {
-  "name": "capacitor-meta-ads",
+  "name": "meta-ads-plugin",
   "version": "0.1.0",
   "description": "Capacitor plugin for Meta (Facebook) iOS SDK - AppEvents, ATT helpers, initialization",
   "main": "dist/plugin.cjs.js",
@@ -11,7 +11,7 @@
     "android/build.gradle",
     "dist/",
     "ios/Plugin/",
-    "ios/capacitor-meta-ads.podspec"
+    "ios/meta-ads-plugin.podspec"
   ],
   "scripts": {
     "verify": "npm run verify:ios && npm run verify:android && npm run verify:web",
