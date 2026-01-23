@@ -3,6 +3,9 @@ export interface MetaAdsPlugin {
   logEvent(options: {
     name: string;
     params?: { [key: string]: any };
+    userData?: {
+      email?: string;
+    };
   }): Promise<void>;
   setUserID(options: { userID: string | null }): Promise<void>;
   setDataProcessingOptions(options: {

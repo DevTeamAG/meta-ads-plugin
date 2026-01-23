@@ -36,14 +36,34 @@ public class MetaAdsPlugin: CAPPlugin {
             return
         }
         let params = call.getObject("params") ?? [:]
-
+        let userDataDict = call.getObject("userData")
+        
         // Convert params into [AppEvents.ParameterName: Any]
         var converted: [AppEvents.ParameterName: Any] = [:]
         for (k, v) in params {
             converted[AppEvents.ParameterName(rawValue: k)] = v
         }
-
-        AppEvents.shared.logEvent(AppEvents.Name(rawValue: name), parameters: converted)
+        
+        // Handle userData if provided
+        var userData: AppEvents.UserData? = nil
+        if let userDataDict = userDataDict {
+            let userDataObj = AppEvents.UserData()
+            
+            // Set email if provided (should be hashed)
+            if let email = userDataDict["email"] as? String {
+                userDataObj.setEmail(email)
+            }
+            
+            userData = userDataObj
+        }
+        
+        // Log event with userData if available
+        if let userData = userData {
+            AppEvents.shared.logEvent(AppEvents.Name(rawValue: name), parameters: converted, userData: userData)
+        } else {
+            AppEvents.shared.logEvent(AppEvents.Name(rawValue: name), parameters: converted)
+        }
+        
         call.resolve()
     }
 

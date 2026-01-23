@@ -7,6 +7,9 @@ export interface MetaAdsPlugin {
         params?: {
             [key: string]: any;
         };
+        userData?: {
+            email?: string;
+        };
     }): Promise<void>;
     setUserID(options: {
         userID: string | null;
