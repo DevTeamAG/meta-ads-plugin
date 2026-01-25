@@ -44,25 +44,16 @@ public class MetaAdsPlugin: CAPPlugin {
             converted[AppEvents.ParameterName(rawValue: k)] = v
         }
         
-        // Handle userData if provided
-        var userData: AppEvents.UserData? = nil
+        // Merge userData into parameters if provided
+        // Facebook uses _email (with underscore) for hashed email addresses
         if let userDataDict = userDataDict {
-            let userDataObj = AppEvents.UserData()
-            
-            // Set email if provided (should be hashed)
             if let email = userDataDict["email"] as? String {
-                userDataObj.setEmail(email)
+                converted[AppEvents.ParameterName(rawValue: "_email")] = email
             }
-            
-            userData = userDataObj
         }
         
-        // Log event with userData if available
-        if let userData = userData {
-            AppEvents.shared.logEvent(AppEvents.Name(rawValue: name), parameters: converted, userData: userData)
-        } else {
-            AppEvents.shared.logEvent(AppEvents.Name(rawValue: name), parameters: converted)
-        }
+        // Log event with merged parameters
+        AppEvents.shared.logEvent(AppEvents.Name(rawValue: name), parameters: converted)
         
         call.resolve()
     }
