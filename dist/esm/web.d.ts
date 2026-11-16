@@ -1,5 +1,5 @@
 import { WebPlugin } from '@capacitor/core';
-import type { MetaAdsPlugin } from './definitions';
+import type { MetaAdsPlugin, MetaUserData } from './definitions';
 export declare class MetaAdsWeb extends WebPlugin implements MetaAdsPlugin {
     constructor();
     initialize(_?: {
@@ -11,6 +11,8 @@ export declare class MetaAdsWeb extends WebPlugin implements MetaAdsPlugin {
             [key: string]: any;
         };
     }): Promise<void>;
+    setUserData(_: MetaUserData): Promise<void>;
+    clearUserData(): Promise<void>;
     setUserID(options: {
         userID: string | null;
     }): Promise<void>;

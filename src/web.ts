@@ -1,6 +1,6 @@
 import { WebPlugin } from '@capacitor/core';
 
-import type { MetaAdsPlugin } from './definitions';
+import type { MetaAdsPlugin, MetaUserData } from './definitions';
 
 export class MetaAdsWeb extends WebPlugin implements MetaAdsPlugin {
   constructor() {
@@ -13,6 +13,14 @@ export class MetaAdsWeb extends WebPlugin implements MetaAdsPlugin {
 
   async logEvent(options: { name: string; params?: { [key: string]: any } }): Promise<void> {
     console.log('MetaAdsPlugin.logEvent (web) ', options.name, options.params);
+  }
+
+  async setUserData(_: MetaUserData): Promise<void> {
+    console.log('MetaAdsPlugin.setUserData (web) - no-op');
+  }
+
+  async clearUserData(): Promise<void> {
+    console.log('MetaAdsPlugin.clearUserData (web) - no-op');
   }
 
   async setUserID(options: { userID: string | null }): Promise<void> {

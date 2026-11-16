@@ -6,6 +6,8 @@
 CAP_PLUGIN(MetaAdsPlugin, "MetaAds",
            CAP_PLUGIN_METHOD(initialize, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(logEvent, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(setUserData, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(clearUserData, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(setUserID, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(setDataProcessingOptions, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(requestTrackingAuthorization, CAPPluginReturnPromise);

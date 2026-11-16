@@ -58,6 +58,28 @@ public class MetaAdsPlugin: CAPPlugin {
         call.resolve()
     }
 
+    // Values are plain; the SDK normalizes and hashes them before sending.
+    @objc func setUserData(_ call: CAPPluginCall) {
+        AppEvents.shared.setUser(
+            email: call.getString("email"),
+            firstName: call.getString("firstName"),
+            lastName: call.getString("lastName"),
+            phone: call.getString("phone"),
+            dateOfBirth: nil,
+            gender: nil,
+            city: nil,
+            state: nil,
+            zip: nil,
+            country: nil
+        )
+        call.resolve()
+    }
+
+    @objc func clearUserData(_ call: CAPPluginCall) {
+        AppEvents.shared.clearUserData()
+        call.resolve()
+    }
+
     @objc func setUserID(_ call: CAPPluginCall) {
         let userID = call.getString("userID")
         Settings.shared.isAdvertiserIDCollectionEnabled = (userID != nil)
