@@ -16,6 +16,12 @@ class MetaAdsWeb extends core.WebPlugin {
     async logEvent(options) {
         console.log('MetaAdsPlugin.logEvent (web) ', options.name, options.params);
     }
+    async setUserData(_) {
+        console.log('MetaAdsPlugin.setUserData (web) - no-op');
+    }
+    async clearUserData() {
+        console.log('MetaAdsPlugin.clearUserData (web) - no-op');
+    }
     async setUserID(options) {
         console.log('MetaAdsPlugin.setUserID (web) ', options.userID);
     }
