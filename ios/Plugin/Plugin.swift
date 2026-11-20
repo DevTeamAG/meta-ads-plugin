@@ -12,7 +12,7 @@ public class MetaAdsPlugin: CAPPlugin {
         // If you want to initialize here, ensure Info.plist has FacebookAppID set.
         if let appID = Bundle.main.object(forInfoDictionaryKey: "FacebookAppID") as? String {
             Settings.shared.appID = appID
-            Settings.shared.isAutoLogAppEventsEnabled = true
+            applyTrackingAuthorization()
             ApplicationDelegate.shared.initializeSDK()
             NSLog("MetaAdsPlugin: initialized with AppID: \(appID)")
         } else {
@@ -25,14 +25,37 @@ public class MetaAdsPlugin: CAPPlugin {
         if let appId = appId {
             Settings.shared.appID = appId
         }
-        Settings.shared.isAutoLogAppEventsEnabled = true
+        applyTrackingAuthorization()
         ApplicationDelegate.shared.initializeSDK()
         call.resolve()
+    }
+
+    /// App Tracking Transparency: Meta app events (manual and automatic) are only
+    /// sent once the user allowed tracking. iOS < 14 has no prompt.
+    private func isTrackingAuthorized() -> Bool {
+        if #available(iOS 14, *) {
+            return ATTrackingManager.trackingAuthorizationStatus == .authorized
+        }
+        return true
+    }
+
+    private func applyTrackingAuthorization() {
+        let authorized = isTrackingAuthorized()
+        Settings.shared.isAutoLogAppEventsEnabled = authorized
+        Settings.shared.isAdvertiserIDCollectionEnabled = authorized
+        if !authorized {
+            AppEvents.shared.clearUserData()
+            AppEvents.shared.userID = nil
+        }
     }
 
     @objc func logEvent(_ call: CAPPluginCall) {
         guard let name = call.getString("name") else {
             call.reject("Missing event name")
+            return
+        }
+        guard isTrackingAuthorized() else {
+            call.resolve()
             return
         }
         let params = call.getObject("params") ?? [:]
@@ -60,6 +83,11 @@ public class MetaAdsPlugin: CAPPlugin {
 
     // Values are plain; the SDK normalizes and hashes them before sending.
     @objc func setUserData(_ call: CAPPluginCall) {
+        guard isTrackingAuthorized() else {
+            AppEvents.shared.clearUserData()
+            call.resolve()
+            return
+        }
         AppEvents.shared.setUser(
             email: call.getString("email"),
             firstName: call.getString("firstName"),
@@ -81,6 +109,11 @@ public class MetaAdsPlugin: CAPPlugin {
     }
 
     @objc func setUserID(_ call: CAPPluginCall) {
+        guard isTrackingAuthorized() else {
+            AppEvents.shared.userID = nil
+            call.resolve()
+            return
+        }
         let userID = call.getString("userID")
         Settings.shared.isAdvertiserIDCollectionEnabled = (userID != nil)
         AppEvents.shared.userID = userID
@@ -103,7 +136,10 @@ public class MetaAdsPlugin: CAPPlugin {
     @objc func requestTrackingAuthorization(_ call: CAPPluginCall) {
         if #available(iOS 14, *) {
             ATTrackingManager.requestTrackingAuthorization { status in
-                call.resolve(["status": status.rawValue])
+                DispatchQueue.main.async {
+                    self.applyTrackingAuthorization()
+                    call.resolve(["status": status.rawValue])
+                }
             }
         } else {
             call.resolve(["status": -1])
