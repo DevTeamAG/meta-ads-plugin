@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
     s.name = 'MetaAdsPlugin'
-    s.version = '0.2.0'
+    s.version = '0.3.0'
     s.summary = 'Capacitor bridge for Meta (Facebook) iOS SDK'
     s.description = 'Capacitor plugin that initializes Facebook SDK and exposes AppEvents for iOS.'
     s.author = { 'Your Name' => 'you@example.com' }

@@ -1,6 +1,6 @@
 {
   "name": "meta-ads-plugin",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Capacitor plugin for Meta (Facebook) iOS SDK - AppEvents, ATT helpers, initialization",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
